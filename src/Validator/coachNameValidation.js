@@ -1,9 +1,5 @@
-class coachNameValidation {
-  constructor(coachNames) {
-    this.#validate(coachNames);
-  }
-
-  #validate(coachNames) {
+const coachNameValidation = {
+  validate(coachNames) {
     if (coachNames === '' || !coachNames.includes(',')) {
       throw new Error('[ERROR]: 코치 이름은 빌수 없습니다.');
     }
@@ -17,5 +13,6 @@ class coachNameValidation {
       );
     }
     return parsedCoach;
-  }
-}
+  },
+};
+export default coachNameValidation;

@@ -1,8 +1,10 @@
 import { Console } from '@woowacourse/mission-utils';
+import InputView from './InputView.js';
+import MainController from './MainController.js';
 
 class App {
   play() {
-    Console.print('hello');
+    new MainController().startProgram();
   }
 }
 
