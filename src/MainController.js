@@ -14,12 +14,12 @@ export default class MainController {
       const bannedFoods = await InputView.parseBannedFood(coach);
       coachesFoodsList[coach] = bannedFoods;
     }
-    OutputView.printMessage('메뉴 추천 결과입니다.');
+    OutputView.printMessage('\n메뉴 추천 결과입니다.');
     OutputView.printMessage(
-      '[ 구분 | 월요일 | 화요일 | 수요일 | 목요일 | 금요일 ]',
+      '\n[ 구분 | 월요일 | 화요일 | 수요일 | 목요일 | 금요일 ]',
     );
     OutputView.printMessage(
-      '[ 카테고리 | 한식 | 한식 | 일식 | 중식 | 아시안 ]',
+      '\n[ 카테고리 | 한식 | 한식 | 일식 | 중식 | 아시안 ]',
     );
 
     for (const [key, value] of Object.entries(coachesFoodsList)) {

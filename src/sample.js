@@ -41,11 +41,26 @@ function checkAvailablityFoodCategory(foodList, foodCategory) {
   }
   return true;
 }
+
 function isDuplicatedFood(foodLists, foodName) {
   if (!foodLists) return true;
   if (foodLists.some((food) => Object.values(food)[0] === foodName))
     return true;
   return false;
+}
+function isValidFood(
+  trimedFoodCandidate,
+  randomNumberArray,
+  foodsList,
+  bannedFoods,
+) {
+  while (true) {
+    const menuNumber = Random.shuffle(randomNumberArray)[0];
+    const pickedMenu = trimedFoodCandidate[menuNumber];
+    if (bannedFoods.includes(pickedMenu)) continue;
+    if (isDuplicatedFood(foodsList, pickedMenu)) continue;
+    return pickedMenu;
+  }
 }
 export default function pickRandomFood(foodsList, bannedFoods) {
   while (foodsList.length !== 5) {
@@ -56,11 +71,13 @@ export default function pickRandomFood(foodsList, bannedFoods) {
     const trimedFoodCandidate = foodCandidate.map((food) => food.trim());
 
     const randomNumberArray = Array.from(Array(foodCandidate.length).keys());
+    const pickedMenu = isValidFood(
+      trimedFoodCandidate,
+      randomNumberArray,
+      foodsList,
+      bannedFoods,
+    );
 
-    const menuNumber = Random.shuffle(randomNumberArray)[0];
-    const pickedMenu = trimedFoodCandidate[menuNumber];
-    if (bannedFoods.includes(pickedMenu)) continue;
-    if (isDuplicatedFood(foodsList, pickedMenu)) continue;
     const obj = {};
     obj[foodCategory] = pickedMenu;
 

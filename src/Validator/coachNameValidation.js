@@ -1,7 +1,7 @@
 const coachNameValidation = {
   validate(coachNames) {
     if (coachNames === '' || !coachNames.includes(',')) {
-      throw new Error('[ERROR]: 코치 이름은 빌수 없습니다.');
+      throw new Error('[ERROR]: 코치 이름이 없거나 혼밥은 안됩니다.');
     }
     const parsedCoach = coachNames.trim().split(',');
     if (parsedCoach.some((coach) => coach.length > 4 || coach.length < 2)) {
