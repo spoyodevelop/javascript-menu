@@ -3,16 +3,14 @@ import { MissionUtils } from '@woowacourse/mission-utils';
 import App from '../src/App.js';
 
 const mockQuestions = (inputs) => {
-	MissionUtils.Console.readLineAsync = jest.fn();
-  
-	MissionUtils.Console.readLineAsync.mockImplementation(() => {
-	  const input = inputs.shift();
-  
-	  return Promise.resolve(input);
-	});
-  };
-  
+  MissionUtils.Console.readLineAsync = jest.fn();
 
+  MissionUtils.Console.readLineAsync.mockImplementation(() => {
+    const input = inputs.shift();
+
+    return Promise.resolve(input);
+  });
+};
 const mockRandoms = (numbers) => {
   MissionUtils.Random.pickNumberInRange = jest.fn();
   numbers.reduce(

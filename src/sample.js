@@ -21,25 +21,30 @@ function pickCategory(randomNumber) {
     case 5:
       return '양식';
     default:
-      throw new Error('impossble');
+      throw new Error('impossible');
   }
 }
 function pickFoodCatagory() {
   const randomNumber = Random.pickNumberInRange(1, 5);
   return pickCategory(randomNumber);
 }
-function checkAvailablityFoodCategory(foodList, foodCategory) {
-  if (!foodList) return true;
-  let count = 1;
-  foodList.forEach((food) => {
-    if (Object.keys(food)[0] === foodCategory) {
-      count += 1;
+function checkAvailablityFoodCategory(foodCategoryList, foodCategory) {
+  return (
+    foodCategoryList.filter(
+      (foodCategoryInList) => foodCategory === foodCategoryInList,
+    ).length < 2
+  );
+}
+export function makeFoodCategory() {
+  const foodCategoryList = [];
+  while (foodCategoryList.length !== 5) {
+    const foodCategory = pickFoodCatagory();
+    if (!checkAvailablityFoodCategory(foodCategoryList, foodCategory)) {
+      continue;
     }
-  });
-  if (count > 2) {
-    return false;
+    foodCategoryList.push(foodCategory);
   }
-  return true;
+  return foodCategoryList;
 }
 
 function isDuplicatedFood(foodLists, foodName) {
@@ -47,6 +52,13 @@ function isDuplicatedFood(foodLists, foodName) {
   if (foodLists.some((food) => Object.values(food)[0] === foodName))
     return true;
   return false;
+}
+function isValidFoodCategory(foodsList) {
+  while (true) {
+    const foodCategory = pickFoodCatagory();
+    if (!checkAvailablityFoodCategory(foodsList, foodCategory)) continue;
+    return foodCategory;
+  }
 }
 function isValidFood(
   trimedFoodCandidate,
@@ -56,21 +68,22 @@ function isValidFood(
 ) {
   while (true) {
     const menuNumber = Random.shuffle(randomNumberArray)[0];
-    const pickedMenu = trimedFoodCandidate[menuNumber];
+    const pickedMenu = trimedFoodCandidate[menuNumber - 1];
     if (bannedFoods.includes(pickedMenu)) continue;
     if (isDuplicatedFood(foodsList, pickedMenu)) continue;
     return pickedMenu;
   }
 }
-export default function pickRandomFood(foodsList, bannedFoods) {
-  while (foodsList.length !== 5) {
-    const foodCategory = pickFoodCatagory();
-    if (!checkAvailablityFoodCategory(foodsList, foodCategory)) continue;
-
+export default function pickRandomFood(
+  listofFoodCategory,
+  foodsList,
+  bannedFoods,
+) {
+  listofFoodCategory.forEach((foodCategory) => {
     const foodCandidate = SAMPLE[foodCategory].split(',');
     const trimedFoodCandidate = foodCandidate.map((food) => food.trim());
 
-    const randomNumberArray = Array.from(Array(foodCandidate.length).keys());
+    const randomNumberArray = Array.from({ length: 9 }, (_, i) => i + 1);
     const pickedMenu = isValidFood(
       trimedFoodCandidate,
       randomNumberArray,
@@ -80,8 +93,7 @@ export default function pickRandomFood(foodsList, bannedFoods) {
 
     const obj = {};
     obj[foodCategory] = pickedMenu;
-
     foodsList.push(obj);
-  }
+  });
   return foodsList;
 }
